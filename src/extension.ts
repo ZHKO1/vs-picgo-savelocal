@@ -1,26 +1,64 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+'use strict'
+import * as fs from 'fs'
+import * as path from 'path'
+import * as vscode from 'vscode'
+import VSPicgo from './vs-picgo'
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-	
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "helloworld" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('helloworld.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from HelloWorld!');
-	});
-
-	context.subscriptions.push(disposable);
+async function uploadImageFromClipboard(vspicgo: VSPicgo) {
+  return await vspicgo.upload()
 }
 
-// this method is called when your extension is deactivated
+async function uploadImageFromExplorer(vspicgo: VSPicgo) {
+  const result = await vscode.window.showOpenDialog({
+    filters: {
+      Images: ['png', 'jpg', 'jpeg', 'webp', 'gif', 'bmp', 'tiff', 'ico', 'svg']
+    },
+    canSelectMany: true
+  })
+
+  if (result != null) {
+    const input = result.map((item) => item.fsPath)
+    return vspicgo.upload(input)
+  }
+}
+
+async function uploadImageFromInputBox(vspicgo: VSPicgo) {
+  let result = await vscode.window.showInputBox({
+    placeHolder: 'Please input an image location path'
+  })
+  // check if `result` is a path of image file
+  const imageReg = /\.(png|jpg|jpeg|webp|gif|bmp|tiff|ico|svg)$/
+  if (result && imageReg.test(result)) {
+    result = path.isAbsolute(result)
+      ? result
+      : path.join(vspicgo.editor?.document.uri.fsPath ?? '', '../', result)
+    if (fs.existsSync(result)) {
+      return await vspicgo.upload([result])
+    } else {
+      await vscode.window.showErrorMessage('No such image.')
+    }
+  } else {
+    await vscode.window.showErrorMessage('No such image.')
+  }
+}
+
+export async function activate(context: vscode.ExtensionContext) {
+  const vspicgo = new VSPicgo()
+  const disposable = [
+    vscode.commands.registerCommand(
+      'picgo.uploadImageFromClipboard',
+      async () => await uploadImageFromClipboard(vspicgo)
+    ),
+    vscode.commands.registerCommand(
+      'picgo.uploadImageFromExplorer',
+      async () => await uploadImageFromExplorer(vspicgo)
+    ),
+    vscode.commands.registerCommand(
+      'picgo.uploadImageFromInputBox',
+      async () => await uploadImageFromInputBox(vspicgo)
+    )
+  ]
+  context.subscriptions.push(...disposable)
+}
+
 export function deactivate() {}
