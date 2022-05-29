@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as _ from 'lodash'
 // @ts-expect-error
 import * as _db from 'lodash-id'
 
