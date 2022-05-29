@@ -1,9 +1,9 @@
 # vs-picgo-savelocal
 
-> 基于vs-picgo新增保存图片到本地的插件，更好地管理markdown里图片资源。
+> 基于vs-picgo新增保存图片到本地的插件，更好地在本地管理markdown里图片资源。
 
 ## Overview
- 和 [vs-picgo](https://github.com/PicGo/PicGo-Core) 保持一致，唯一的不同是新增了picgo.localSavePath配置，可以根据md文件名自由配置本地保存地址
+ 和 [vs-picgo](https://github.com/PicGo/PicGo-Core) 保持一致，唯一的不同是新增了picgo.localSavePath配置，可以根据markdown文件名自由配置本地保存地址
 
 ## Features
 
@@ -78,35 +78,10 @@
     <summary>Customize the output format of the uploaded image</summary>
     <img src="https://i.loli.net/2019/04/09/5cac18a5c9def.png" alt="output-format.png">
     </details>
-
     <details>
-    <summary>
-       Suggested settings for  <a href='https://github.com/Molunerfinn/PicGo'>PicGo-electron</a> users (See <a href='https://picgo.github.io/PicGo-Doc/zh/guide/config.html#%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8C'> PicGo configuration path</a> for more information):
-    </summary>
+    <summary>vs-picgo-savelocal新增功能: 配置上传完图片后的本地保存目录路径</summary>
+    <p>对应修改picgo.localSavePath配置</p>
     </details>
-
-    **Notice: `YOUR_HOME_DIR` should be replaced by the path of your current user path.**
-
-    ```json
-    // Windows
-    {
-        "picgo.configPath":"YOUR_HOME_DIR\\AppData\\Roaming\\PicGo\\data.json",
-        "picgo.dataPath": "YOUR_HOME_DIR\\AppData\\Roaming\\PicGo\\data.json"
-    }
-
-    // macOS
-    {
-        "picgo.configPath": "YOUR_HOME_DIR/Library/Application Support/picgo/data.json",
-        "picgo.dataPath": "YOUR_HOME_DIR/Library/Application Support/picgo/data.json"
-    }
-
-    // Linux
-    {
-        "picgo.configPath": "YOUR_HOME_DIR/.config/picgo/data.json",
-        "picgo.dataPath": "YOUR_HOME_DIR/.config/picgo/data.json"
-    }
-    ```
-
 
 
 ## Thanks
