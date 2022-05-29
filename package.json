@@ -1,7 +1,8 @@
 {
-  "name": "helloworld",
-  "displayName": "HelloWorld",
-  "description": "LEAVE BLANK",
+  "name": "vs-picgo-savelocal",
+  "displayName": "%ext.displayName%",
+  "description": "%ext.description%",
+  "keywords": "%ext.keywords%",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.67.0"

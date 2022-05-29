@@ -1,75 +1,117 @@
-新增功能
-1. 上传成功后，则保存图片到本地，提示保存成功
-2. 
+# vs-picgo-savelocal
 
+> 基于vs-picgo新增保存图片到本地的插件，更好地管理markdown里图片资源。
 
-# helloworld README
-
-This is the README for your extension "helloworld". After writing up a brief description, we recommend including the following sections.
+## Overview
+ 和 [vs-picgo](https://github.com/PicGo/PicGo-Core) 保持一致，唯一的不同是新增了picgo.localSavePath配置，可以根据md文件名自由配置本地保存地址
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+<details>
+<summary>Uploading an image from clipboard</summary>
+<img src="https://i.loli.net/2019/04/09/5cac17d2d2265.gif" alt="clipboard.gif">
+</details>
 
-For example if there is an image subfolder under your extension project workspace:
+<details>
+<summary>Uploading images from explorer</summary>
+<img src="https://i.loli.net/2019/04/09/5cac17eea0d65.gif" alt="explorer.gif">
+</details>
 
-\!\[feature X\]\(images/feature-x.png\)
+<details>
+<summary>Uploading images from input box</summary>
+<img src="https://i.loli.net/2019/04/09/5cac17fe52a86.gif" alt="input box.gif">
+</details>
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+<details>
+<summary>Use selection text as the uploaded <code>fileName</code></summary>
+<img src="https://i.loli.net/2019/04/09/5cac180fb1dc7.gif" alt="selection.gif">
+<b>Notice: These characters: <code>\$</code>, <code>:</code>, <code>/</code>, <code>?</code> and newline will be ignored in the image name. </b>(Because they are invalid for file names.)
+</details>
 
-## Requirements
+## Keyboard shortcuts
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+**You can change all the shortcuts below as you wish.**
 
-## Extension Settings
+| OS           | Uploading an image from clipboard               | Uploading images from explorer                  | Uploading an image from input box               |
+| ------------ | ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| Windows/Unix | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>U</kbd> | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>E</kbd> | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd> |
+| OsX          | <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>U</kbd>  | <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>E</kbd>  | <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>O</kbd>  |
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Settings
 
-For example:
+- Default
+  - The default image hosting is [SM.MS](https://sm.ms/).
 
-This extension contributes the following settings:
+- Custom
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+    <details>
+    <summary><b>We can customize the settings in VSCode settings</b></summary>
+    <img src="https://i.loli.net/2019/04/09/5cac1821b6621.png" alt="vscode-setting.png">
+    </details>
 
-## Known Issues
+  - Use an external configuration file
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+    <details>
+    <summary>Enter the path of the configuration file</summary>
+    <img src="https://i.loli.net/2019/04/09/5cac1836598a8.png" alt="external-config.png">
+    </details>
 
-## Release Notes
+  - Use VSCode settings
 
-Users appreciate release notes as you update your extension.
+    <details>
+    <summary>First, choose the current PicBed</summary>
+    <img src="https://i.loli.net/2019/04/09/5cac1847b5907.png" alt="current-picbed.png">
+    </details>
 
-### 1.0.0
+    <details>
+    <summary>Then, input all the info the current PicBed needs</summary>
+    <img src="https://i.loli.net/2019/04/09/5cac4950d176b.png" alt="picbed-info.png">
+    </details>
 
-Initial release of ...
+    <details>
+    <summary>Customize the name of the image to be uploaded</summary>
+    <b>Notice: If you selected some text before uploading, the selection will become the <code>fileName</code> of the image to be uploaded.</b>
+    <img src="https://i.loli.net/2019/04/09/5cac189446749.png" alt="image-name.png">
+    </details>
 
-### 1.0.1
+    <details>
+    <summary>Customize the output format of the uploaded image</summary>
+    <img src="https://i.loli.net/2019/04/09/5cac18a5c9def.png" alt="output-format.png">
+    </details>
 
-Fixed issue #.
+    <details>
+    <summary>
+       Suggested settings for  <a href='https://github.com/Molunerfinn/PicGo'>PicGo-electron</a> users (See <a href='https://picgo.github.io/PicGo-Doc/zh/guide/config.html#%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8C'> PicGo configuration path</a> for more information):
+    </summary>
+    </details>
 
-### 1.1.0
+    **Notice: `YOUR_HOME_DIR` should be replaced by the path of your current user path.**
 
-Added features X, Y, and Z.
+    ```json
+    // Windows
+    {
+        "picgo.configPath":"YOUR_HOME_DIR\\AppData\\Roaming\\PicGo\\data.json",
+        "picgo.dataPath": "YOUR_HOME_DIR\\AppData\\Roaming\\PicGo\\data.json"
+    }
 
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
+    // macOS
+    {
+        "picgo.configPath": "YOUR_HOME_DIR/Library/Application Support/picgo/data.json",
+        "picgo.dataPath": "YOUR_HOME_DIR/Library/Application Support/picgo/data.json"
+    }
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+    // Linux
+    {
+        "picgo.configPath": "YOUR_HOME_DIR/.config/picgo/data.json",
+        "picgo.dataPath": "YOUR_HOME_DIR/.config/picgo/data.json"
+    }
+    ```
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
 
-## Working with Markdown
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+## Thanks
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- [PicGo-Core](https://github.com/PicGo/PicGo-Core)
+- [vs-picgo](https://github.com/PicGo/vs-picgo)
 
 **Enjoy!**
