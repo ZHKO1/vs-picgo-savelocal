@@ -193,11 +193,16 @@ export default class VSPicgo extends EventEmitter {
           mdFileName
         }
         var trueLocalSavePath = formatString(localSavePath, uploadNameData as IUploadName);
-        fsextra.ensureDirSync(trueLocalSavePath)
+        try{
+          fsextra.ensureDirSync(trueLocalSavePath)
+        } catch(e){
+          showError(`${trueLocalSavePath} is denied.`)
+          return;
+        }
         ctx.output.forEach(async (imgInfo: IImgInfo, index: number) => {
           const { buffer_, fileName } = imgInfo;
           var local_path = path.resolve(trueLocalSavePath, `${fileName}`);
-          if (!fs.existsSync(local_path)) {
+          if (fs.existsSync(local_path)) {
             showError(`${local_path} is existed.`)
             return;
           }
