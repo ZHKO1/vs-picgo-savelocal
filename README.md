@@ -1,3 +1,8 @@
+新增功能
+1. 上传成功后，则保存图片到本地，提示保存成功
+2. 
+
+
 # helloworld README
 
 This is the README for your extension "helloworld". After writing up a brief description, we recommend including the following sections.

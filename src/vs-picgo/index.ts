@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
 import * as fs from 'fs'
+import * as fsextra from 'fs-extra'
 import * as path from 'path'
 import * as os from 'os'
 import * as vscode from 'vscode'
@@ -57,6 +58,8 @@ export default class VSPicgo extends EventEmitter {
     this.configPicgo()
     // Before upload, we change names of the images.
     this.registerRenamePlugin()
+    // After upload, we save the custom output to local.
+    this.registerSaveLocalPlugin()
     // After upload, we use the custom output format.
     this.addGenerateOutputListener()
   }
@@ -152,6 +155,7 @@ export default class VSPicgo extends EventEmitter {
             uploadNameTemplate,
             undefined
           )
+          ctx.output[0].buffer_ = ctx.output[0].buffer
         } else {
           ctx.output.forEach((imgInfo: IImgInfo, index: number) => {
             imgInfo.fileName = this.changeFilename(
@@ -159,6 +163,7 @@ export default class VSPicgo extends EventEmitter {
               uploadNameTemplate,
               index
             )
+            imgInfo.buffer_ = imgInfo.buffer
           })
         }
       }
@@ -166,6 +171,40 @@ export default class VSPicgo extends EventEmitter {
     VSPicgo.picgo.helper.beforeUploadPlugins.register(
       'vsPicgoRenamePlugin',
       beforeUploadPlugin
+    )
+  }
+
+  registerSaveLocalPlugin() {
+    const SaveLocalPlugin: IPlugin = {
+      handle: (ctx: IPicGo) => {
+        const localSavePath =
+          vscode.workspace
+            .getConfiguration('picgo')
+            .get<string>('localSavePath');
+        if(!localSavePath){
+          return;
+        }
+        const mdFilePath = this.editor?.document.fileName;
+        if(!mdFilePath){
+          return;
+        }
+        const mdFileName = path.basename(mdFilePath, path.extname(mdFilePath))
+        const uploadNameData: Partial<IUploadName> = {
+          mdFileName
+        }
+        var trueLocalSavePath = formatString(localSavePath, uploadNameData as IUploadName);
+        fsextra.ensureDirSync(trueLocalSavePath)
+        ctx.output.forEach((imgInfo: IImgInfo, index: number) => {
+          const { buffer_, fileName } = imgInfo;
+          var path_ = path.resolve(trueLocalSavePath, `${fileName}`);
+          fs.writeFileSync(path_, buffer_!)
+          // await writeFileP(trueLocalSavePath + '/' + `${fileName}.${extname}`, buffer)
+        })
+      }
+    }
+    VSPicgo.picgo.helper.afterUploadPlugins.register(
+      'vsPicgoSaveLocalPlugin',
+      SaveLocalPlugin
     )
   }
 
