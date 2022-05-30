@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable no-undef */
 import * as assert from 'assert'
+import * as fsextra from 'fs-extra'
 import { workspace, window, Selection } from 'vscode'
 
 import VSPicgo from '../../src/vs-picgo'
@@ -13,6 +14,7 @@ import {
   IVSPicgoConfigurationKeys,
   TEST_MD_FILE_PATH,
   TEST_PICTURE_PATH,
+  TEST_PICTURE_SAVE_LOCALLY_PATH,
   VSPicgoUploadStarter
 } from '../utils'
 
@@ -52,6 +54,7 @@ describe('VSPicgo', async function () {
           true
         )
     }
+    fsextra.remove(TEST_PICTURE_SAVE_LOCALLY_PATH + 'test/')
   })
 
   it('customOutputFormat should work', async function () {
@@ -101,5 +104,23 @@ describe('VSPicgo', async function () {
     })
     console.log('selection as fileName result: ' + res)
     assert.equal(res.indexOf('TEST'), 2)
+  })
+
+  it('save picture locally should work', async function () {
+    this.timeout(30000)
+    await VSPicgoUploadStarter({
+      args4uploader: [TEST_PICTURE_PATH],
+      configuration: {
+        'picgo.localSavePath': TEST_PICTURE_SAVE_LOCALLY_PATH + "${mdFileName}/",
+        'picgo.customUploadName': '${fileName}${extName}'
+      },
+      editor: {
+        content: '',
+        selection: new Selection(0, 0, 0, 0)
+      },
+      vspicgo
+    })
+    var saveResult = TEST_PICTURE_SAVE_LOCALLY_PATH + "test/" + "test.png"
+    assert.equal(fsextra.existsSync(saveResult), true)
   })
 })

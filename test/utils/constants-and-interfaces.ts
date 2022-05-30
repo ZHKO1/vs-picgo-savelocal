@@ -7,6 +7,7 @@ import VSPicgo from '../../src/vs-picgo'
 export interface IVSPicgoConfiguration {
   'picgo.configPath': string | undefined
   'picgo.dataPath': string | undefined
+  'picgo.localSavePath': string | undefined
   'picgo.customUploadName': string | undefined
   'picgo.customOutputFormat': string | undefined
   'picgo.picBed.current': string | undefined
@@ -94,6 +95,7 @@ export const TEST_PICTURE_PATH = path.join(
   __dirname,
   '../../../assets/test.png'
 )
+export const TEST_PICTURE_SAVE_LOCALLY_PATH = path.join(__dirname, '../../../assets/')
 
 export const COVERAGE_COLLECTOR_CONFIG_FILE_PATH = path.join(
   __dirname,
@@ -102,6 +104,7 @@ export const COVERAGE_COLLECTOR_CONFIG_FILE_PATH = path.join(
 export const DEFAULT_CONFIGS: IVSPicgoConfiguration = {
   'picgo.configPath': '',
   'picgo.dataPath': '',
+  'picgo.localSavePath': '',
   'picgo.customUploadName': '${fileName}${extName}',
   'picgo.customOutputFormat': '![${uploadedName}](${url})',
   'picgo.picBed.current': 'smms',

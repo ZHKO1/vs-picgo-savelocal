@@ -176,7 +176,7 @@ export default class VSPicgo extends EventEmitter {
 
   registerSaveLocalPlugin() {
     const SaveLocalPlugin: IPlugin = {
-      handle: (ctx: IPicGo) => {
+      handle: async (ctx: IPicGo) => {
         const localSavePath =
           vscode.workspace
             .getConfiguration('picgo')
@@ -199,17 +199,17 @@ export default class VSPicgo extends EventEmitter {
           showError(`${trueLocalSavePath} is denied.`)
           return;
         }
-        ctx.output.forEach(async (imgInfo: IImgInfo, index: number) => {
+        await Promise.all(ctx.output.map(async (imgInfo: IImgInfo, index: number) => {
           const { buffer_, fileName } = imgInfo;
           var local_path = path.resolve(trueLocalSavePath, `${fileName}`);
           if (fs.existsSync(local_path)) {
             showError(`${local_path} is existed.`)
             return;
           }
-          await fs.writeFileSync(local_path, buffer_!)
+          await writeFileP(local_path, buffer_!)
           delete imgInfo.buffer_
           showInfo(`${local_path} is saved.`)
-        })
+        }))
       }
     }
     VSPicgo.picgo.helper.afterUploadPlugins.register(
