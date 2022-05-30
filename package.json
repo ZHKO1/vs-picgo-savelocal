@@ -5,7 +5,7 @@
   "keywords": "%ext.keywords%",
   "repository": "https://github.com/ZHKO1/vs-picgo-savelocal",
   "issues": "https://github.com/ZHKO1/vs-picgo-savelocal/issues",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "ZHKO1",
   "engines": {
     "vscode": "^1.67.0"
