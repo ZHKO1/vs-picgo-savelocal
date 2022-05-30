@@ -5,6 +5,9 @@
 ## Overview
  和 [vs-picgo](https://github.com/PicGo/PicGo-Core) 保持一致，唯一的不同是新增了picgo.localSavePath配置，可以根据markdown文件名自由配置本地保存地址
 
+ 如果你不需要本地保存功能，还是推荐用 [vs-picgo](https://github.com/PicGo/PicGo-Core)
+
+ 在此感谢 [vs-picgo](https://github.com/PicGo/PicGo-Core) 和 [PicGo-Core](https://github.com/PicGo/PicGo-Core)
 ## Features
 
 <details>
