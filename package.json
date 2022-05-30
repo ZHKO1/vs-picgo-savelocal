@@ -3,7 +3,10 @@
   "displayName": "%ext.displayName%",
   "description": "%ext.description%",
   "keywords": "%ext.keywords%",
+  "repository": "https://github.com/ZHKO1/vs-picgo-savelocal",
+  "issues": "https://github.com/ZHKO1/vs-picgo-savelocal/issues",
   "version": "0.0.1",
+  "publisher": "ZHKO1",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -310,7 +313,8 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "build": "yarn vsce package --yarn"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -331,6 +335,7 @@
     "glob": "^8.0.1",
     "husky": "^4.2.3",
     "mocha": "^9.2.2",
+    "vsce": "1.83.0",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.4",
     "webpack": "^5.70.0",
